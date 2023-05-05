@@ -254,13 +254,13 @@ function CheckForVerticalCollision() {
             }
         }
     }
-    for (let i = 0; i < curTetromino.length; i++) {
-        let newY = curTetromino[i][1] + startY;
-        if (newY >= 19) {
-            return true;
-        }
-    }
-    return false;
+    // for (let i = 0; i < curTetromino.length; i++) {
+    //     let newY = curTetromino[i][1] + startY;
+    //     if (newY >= 19) {
+    //         return true;
+    //     }
+    // }
+    // return false;
 }
 
 function CheckForHorizontalCollision() {
