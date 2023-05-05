@@ -135,7 +135,7 @@ function HandleKeyPress(key) {
             MoveTetrominoDown();
         } else if (key.keyCode === 69) {
             RotateTetromino();
-        }else if (key.keyCode === 87){
+        } else if (key.keyCode === 87) {
             DeleteTetromino();
             startY--;
             DrawTetromino();
@@ -155,6 +155,7 @@ function MoveTetrominoDown() {
 window.setInterval(function () {
     if (winOrLose != "Game Over") {
         MoveTetrominoDown();
+        console.log(startY);
     }
 }, 1000);
 
@@ -217,11 +218,11 @@ function CheckForVerticalCollision() {
         if (direction === DIRECTION.DOWN) {
             y++;
         }
+        if (y >= 20) {
+            collision = true;
+            break;
+        }
         if (gameBoardArray[x][y + 1] === 1) {
-            if (y >= 20) {
-                collision = true;
-                break;
-            }
             if (typeof stoppedShapeArray[x][y + 1] === 'string') {
                 DeleteTetromino();
                 startY++;
@@ -230,37 +231,29 @@ function CheckForVerticalCollision() {
                 break;
             }
         }
-
-        if (collision) {
-            if (startY <= 2) {
-                winOrLose = "Game Over";
-                ctx.fillStyle = 'white';
-                ctx.fillRect(310, 242, 140, 30);
-                ctx.fillStyle = 'black';
-                ctx.fillText(winOrLose, 310, 261);
-            } else {
-                for (let i = 0; i < tetrominoCopy.length; i++) {
-                    let square = tetrominoCopy[i];
-                    let x = square[0] + startX;
-                    let y = square[1] + startY;
-                    stoppedShapeArray[x][y] = curTetrominoColor;
-                }
-                CheckForCompletedRows();
-                CreateTetromino();
-                direction = DIRECTION.IDLE;
-                startX = 4;
-                startY = 0;
-                DrawTetromino();
+    }
+    if (collision) {
+        if (startY <= 2) {
+            winOrLose = "Game Over";
+            ctx.fillStyle = 'white';
+            ctx.fillRect(310, 242, 140, 30);
+            ctx.fillStyle = 'black';
+            ctx.fillText(winOrLose, 310, 261);
+        } else {
+            for (let i = 0; i < tetrominoCopy.length; i++) {
+                let square = tetrominoCopy[i];
+                let x = square[0] + startX;
+                let y = square[1] + startY;
+                stoppedShapeArray[x][y] = curTetrominoColor;
             }
+            CheckForCompletedRows();
+            CreateTetromino();
+            direction = DIRECTION.IDLE;
+            startX = 4;
+            startY = 0;
+            DrawTetromino();
         }
     }
-    // for (let i = 0; i < curTetromino.length; i++) {
-    //     let newY = curTetromino[i][1] + startY;
-    //     if (newY >= 19) {
-    //         return true;
-    //     }
-    // }
-    // return false;
 }
 
 function CheckForHorizontalCollision() {
